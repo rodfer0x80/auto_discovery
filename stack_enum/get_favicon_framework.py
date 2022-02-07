@@ -76,6 +76,6 @@ def get_favicon_framework(host, owasp_favicon_db="./owasp_favicon_db.txt"):
         if fw_hash == hashed_pass:
             output += f"{hashed_pass}:{db[fw_hash]}\n"
             break
-    
+
     return output
 
