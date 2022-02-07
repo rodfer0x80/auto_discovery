@@ -32,6 +32,5 @@ def get_sitemap_xml(host):
         sys.stderr.write("[get_sitemap_xml] Network connection error\n")
         exit(1)
    
-    # parse and sort data to buld sitemap
     return output
 

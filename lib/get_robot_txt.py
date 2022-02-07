@@ -30,6 +30,5 @@ def get_robot_txt(host):
         sys.stderr.write("[get_robot_txt] Network connection error\n")
         exit(1)
    
-    # parse and sort data to buld sitemap
     return output
 
