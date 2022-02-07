@@ -1,8 +1,9 @@
+import threading
+
 from .get_robots_txt import get_robots_txt
 from .get_sitemap_xml import get_sitemap_xml
 from .get_server_id import get_server_id
 from .get_favicon_framework import get_favicon_framework
-import threading
 
 
 # sync threads to write to tmpfile in order
@@ -15,18 +16,15 @@ def kill_threads():
 
 
 def run_threads():
-    tmpfile = "/tmp/auto_discovery.tmp"
     global flag
-   
+    tmpfile = "/tmp/auto_discovery.tmp"
+    os.umask(660)
+
     if os.exists(tmpfile):
-        os.umask(660)
         os.remove(tmpfile)
+    os.system(f"touch {tmpfile}")
     
     # to thread things
 
-    with open(tmpfile, 'r') as fp:
-        data = fp.read().splitlines()
-        for line in data:
-            print(line)
     os.remove(tmpfile)
     exit(0)
