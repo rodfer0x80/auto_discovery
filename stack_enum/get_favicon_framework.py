@@ -25,12 +25,14 @@ if __name__ == '__main__':
     arg1_model = "<IPv4>"
     if len(sys.argv) != 2:
         sys.stderr.write(f"Usage: ./{sys.argv[0]} {arg1_model}\n")
+        print(0)
         exit(1)
     host = sys.argv[1]
     try:
         db = unpack_txt_db(owasp_favicon_db)
     except FileNotFound:
-        print("[!] File not found at {owasp_favicon_db}")
+        sys.stderr.write("[!] File not found at {owasp_favicon_db}")
+        print(0)
         exit(1)
     try:
         res = requests.get(f"http://{host}/favicon.ico")
@@ -46,7 +48,7 @@ if __name__ == '__main__':
             output = res.text
     
         if res.status_code != 200:    
-        res = requests.get(f"https://{host}/favicon.ico")
+            res = requests.get(f"https://{host}/favicon.ico")
         else:
             output = res.text
     
@@ -61,10 +63,12 @@ if __name__ == '__main__':
             output = res.text
     
         if res.status_code != 200:
-            print("[!] Failed to connect to server\n")
-            exit(1)
+            sys.stderr.write("[!] Failed to connect to server\n")
+            print(0)
+            exit(0)
     except:
-        print("[!] Network connection error")
+        sys.stderr.write("[!] Network connection error\n")
+        print(0)
         exit(1)
 
     hash_ob = hashlib.md5(output.strip().encode())

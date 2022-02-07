@@ -13,6 +13,7 @@ if __name__ == '__main__':
     arg1_model = "<IPv4>"
     if len(sys.argv) != 2:
         sys.stderr.write(f"Usage: ./{sys.argv[0]} {arg1_model}\n")
+        print(1)
         exit(1)
     host = sys.argv[1]
     
@@ -34,10 +35,12 @@ if __name__ == '__main__':
 
         
         if output != "" and output != None:
-            print("[!] Failed to connect to server")
-            exit(1)
+            sys.stderr.write("[!] Failed to connect to server\n")
+            print(1)
+            exit(0)
     except:
-        print("[!] Network connection error")
+        print("[!] Network connection error\n")
+        print(1)
         exit(1)
 
     print(output)
