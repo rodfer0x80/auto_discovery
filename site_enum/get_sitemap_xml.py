@@ -2,8 +2,9 @@
 
 
 # Send GET and POST request trying HTTPS and HTTP 
-# Read Server header from response
-# Return Server ID data
+# Read sitemap.xml 
+# Parse and sort data to enumerate sitemap
+# Return string of sitemap entries newline separated
 
 
 import sys, requests
@@ -15,17 +16,24 @@ if __name__ == '__main__':
         sys.stderr.write(f"Usage: ./{sys.argv[0]} {arg1_model}\n")
         exit(1)
     host = sys.argv[1]
-
+    
     try:
-        # GET HTTP
         res = requests.get(f"http://{host}/sitemap.xml")
-        output = res.text
+        print(res.status_code) 
+        if res.status_code != 200:
+            res = requests.get(f"https://{host}/sitemap.xml")
+            if res.status_code != 200:
+                output = res.text
+            else:
+                sys.stderr.write("[!] Failed to connect to server\n")
+                exit(0)
+        else:
+            output = res.text
+        
     except:
-        try:
-            # GET HTTPS
-            res = requests.get(f"https://{host}/")
-            output = res.headers['server']
-        except:
-            output = "[!] Failed to connect to server\n"
+        sys.stderr.write("[!] Network connection error\n")
+        exit(1)
+   
+    # parse and sort data to buld sitemap
     print(output)
 

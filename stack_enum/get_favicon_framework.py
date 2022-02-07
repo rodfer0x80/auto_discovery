@@ -4,6 +4,8 @@
 # Send GET request trying HTTPS and HTTP 
 # Read header from response to get favicon.ico
 # md5sum and compare with database for match
+# Return string "hash\nframework" if framework is found
+# Return string "hash" if framework not found
 
 
 import sys, requests, hashlib
@@ -25,14 +27,12 @@ if __name__ == '__main__':
     arg1_model = "<IPv4>"
     if len(sys.argv) != 2:
         sys.stderr.write(f"Usage: ./{sys.argv[0]} {arg1_model}\n")
-        print(0)
         exit(1)
     host = sys.argv[1]
     try:
         db = unpack_txt_db(owasp_favicon_db)
     except FileNotFound:
         sys.stderr.write("[!] File not found at {owasp_favicon_db}")
-        print(0)
         exit(1)
     try:
         res = requests.get(f"http://{host}/favicon.ico")
@@ -64,11 +64,9 @@ if __name__ == '__main__':
     
         if res.status_code != 200:
             sys.stderr.write("[!] Failed to connect to server\n")
-            print(0)
             exit(0)
     except:
         sys.stderr.write("[!] Network connection error\n")
-        print(0)
         exit(1)
 
     hash_ob = hashlib.md5(output.strip().encode())

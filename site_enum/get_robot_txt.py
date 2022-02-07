@@ -2,8 +2,9 @@
 
 
 # Send GET and POST request trying HTTPS and HTTP 
-# Read Server header from response
-# Return Server ID data
+# Read robots.txt
+# Parse and sort data to enumerate sitemap
+# Return string of sitemap entries newline separated
 
 
 import sys, requests
@@ -17,15 +18,22 @@ if __name__ == '__main__':
     host = sys.argv[1]
     
     try:
-        # GET HTTP
         res = requests.get(f"http://{host}/robots.txt")
-        output = res.text
-    except:
-        try:
-            # GET HTTPS
-            res = requests.get(f"https://{host}/")
+        print(res.status_code) 
+        if res.status_code != 200:
+            res = requests.get(f"https://{host}/robots.txt")
+            if res.status_code != 200:
+                output = res.text
+            else:
+                sys.stderr.write("[!] Failed to connect to server\n")
+                exit(0)
+        else:
             output = res.text
-        except:
-            output = "[!] Failed to connect to server\n"
+        
+    except:
+        sys.stderr.write("[!] Network connection error\n")
+        exit(1)
+   
+    # parse and sort data to buld sitemap
     print(output)
 

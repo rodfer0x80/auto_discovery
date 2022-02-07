@@ -3,7 +3,7 @@
 
 # Send GET and POST request trying HTTPS and HTTP 
 # Read Server header from response
-# Return Server ID data
+# Return Server ID string
 
 
 import sys, requests
@@ -13,10 +13,8 @@ if __name__ == '__main__':
     arg1_model = "<IPv4>"
     if len(sys.argv) != 2:
         sys.stderr.write(f"Usage: ./{sys.argv[0]} {arg1_model}\n")
-        print(1)
         exit(1)
     host = sys.argv[1]
-    
     
     try:
         res = requests.get(f"http://{host}/")
@@ -36,11 +34,9 @@ if __name__ == '__main__':
         
         if output != "" and output != None:
             sys.stderr.write("[!] Failed to connect to server\n")
-            print(1)
             exit(0)
     except:
         print("[!] Network connection error\n")
-        print(1)
         exit(1)
 
     print(output)
