@@ -13,27 +13,26 @@ import sys, requests, hashlib
 
 def unpack_txt_db(db_location):
     db = dict()
+    
     with open(db_location, 'r') as fp:
         data = fp.read().splitlines()
         for line in data:
             line_sep = line.split(":")
             md5hash, framework = line_sep[0], line_sep[1]
             db[md5hash] = framework
+    
     return db
 
 
-if __name__ == '__main__':
-    owasp_favicon_db = "./owasp_favicon_db.txt"
-    arg1_model = "<IPv4>"
-    if len(sys.argv) != 2:
-        sys.stderr.write(f"Usage: ./{sys.argv[0]} {arg1_model}\n")
-        exit(1)
-    host = sys.argv[1]
+def get_favicon_framework(host, owasp_favicon_db="./owasp_favicon_db.txt"):
+    output = ""
+    
     try:
         db = unpack_txt_db(owasp_favicon_db)
     except FileNotFound:
-        sys.stderr.write("[!] File not found at {owasp_favicon_db}")
+        sys.stderr.write("[get_favicon_framework] File not found at {owasp_favicon_db}")
         exit(1)
+    
     try:
         res = requests.get(f"http://{host}/favicon.ico")
         res_status_code = res.status_code
@@ -63,18 +62,20 @@ if __name__ == '__main__':
             output = res.text
     
         if res.status_code != 200:
-            sys.stderr.write("[!] Failed to connect to server\n")
+            sys.stderr.write("[get_favicon_framework] Failed to connect to server\n")
             exit(0)
     except:
-        sys.stderr.write("[!] Network connection error\n")
+        sys.stderr.write("[get_favicon_framework] Network connection error\n")
         exit(1)
 
     hash_ob = hashlib.md5(output.strip().encode())
     hashed_pass = hash_ob.hexdigest()
-    print(hashed_pass)
+    output = f"{hashed_pass}\n"
+    
     for fw_hash in db:
         if fw_hash == hashed_pass:
-            print(db[fw_hash])
+            output += f"{hashed_pass}:{db[fw_hash]}\n"
             break
-    exit(0)
+    
+    return output
 

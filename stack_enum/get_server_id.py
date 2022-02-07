@@ -9,12 +9,8 @@
 import sys, requests
 
 
-if __name__ == '__main__':
-    arg1_model = "<IPv4>"
-    if len(sys.argv) != 2:
-        sys.stderr.write(f"Usage: ./{sys.argv[0]} {arg1_model}\n")
-        exit(1)
-    host = sys.argv[1]
+def get_server_id(host):
+    output = ""
     
     try:
         res = requests.get(f"http://{host}/")
@@ -33,11 +29,11 @@ if __name__ == '__main__':
 
         
         if output != "" and output != None:
-            sys.stderr.write("[!] Failed to connect to server\n")
+            sys.stderr.write("[get_server_id] Failed to connect to server\n")
             exit(0)
     except:
-        print("[!] Network connection error\n")
+        print("[get_server_id] Network connection error\n")
         exit(1)
-
-    print(output)
+    
+    return output
 
