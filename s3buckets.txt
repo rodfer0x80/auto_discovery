@@ -1,0 +1,3 @@
+public, private and even writable
+http(s)://{name}.s3.amazonaws.com where {name} 
+{name}-assets, {name}-www, {name}-public, {name}-private, etc.
