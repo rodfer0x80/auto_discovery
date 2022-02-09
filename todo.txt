@@ -2,7 +2,7 @@ filter 200 300 and 400 from requests and split tooling ouput into ordered
 folder not only the 200
 need to properly modulate scripts for each function, then have an oracle that
 puts everything together and builds report, reads report and writes visual.log
-modulate external_tools, tools, oracle, threadpool
+modulate external_tools, tools, oracle and threadpool(make it more flexible)
 lib should be turned into moduled tools like rice again, we will expand them
 and make them big enough for a folder
 modulate scripts for each funcionality and incorporate tools like ffuf, sqlmap,
