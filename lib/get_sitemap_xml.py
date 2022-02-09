@@ -34,3 +34,14 @@ def get_sitemap_xml(host):
    
     return output
 
+
+if __name__ == '__main__':
+    host = False
+    try:
+        host = sys.argv[1]
+    except:
+        sys.stderr.write("Usage: ./get_sitemap_xml.py <host>\n")
+        exit(1)
+    output = get_sitemap_xml(host)
+    print(output)
+    exit(0)

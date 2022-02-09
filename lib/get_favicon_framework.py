@@ -79,3 +79,22 @@ def get_favicon_framework(host, owasp_favicon_db="./owasp_favicon_db.txt"):
 
     return output
 
+
+if __name__ == '__main__':
+    host = False
+    owasp_favicon_db = False
+    try:
+        host = sys.argv[1]
+    except:
+        sys.stderr.write("Usage: ./get_favicon_framework.py <host> <owasp_favicon_db>\n")
+        exit(1)
+    try:
+        owasp_favicon_db = sys.argv[2]
+    except:
+        pass
+    if owasp_favicon_db:
+        output = get_favicon_output(host, owasp_favicon_db)
+    else:
+        output = get_favicon_output(host)
+    print(output)
+    exit(0)

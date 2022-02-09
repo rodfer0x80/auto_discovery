@@ -32,3 +32,14 @@ def get_robot_txt(host):
    
     return output
 
+
+if __name__ == '__main__':
+    host = False
+    try:
+        host = sys.argv[1]
+    except:
+        sys.stderr.write("Usage: ./get_robot_txt.py <host>\n")
+        exit(1)
+    output = get_robot_txt(host)
+    print(output)
+    exit(0)

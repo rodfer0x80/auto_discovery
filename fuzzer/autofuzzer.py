@@ -46,3 +46,14 @@ class Autofuzzer:
             buf += self.conn.recv(1)
         return buf
 
+
+if __name__ == '__main__':
+    try:
+        server = sys.argv[1]
+        port = int(sys.argv[2])
+    except:
+        sys.stderr.write("Usage: autofuzzer.py <server> <port>\n")
+        exit(1)
+    output = ""
+    print(output)
+    exit(0)
