@@ -7,7 +7,7 @@ lib should be turned into moduled tools like rice again, we will expand them
 and make them big enough for a folder
 modulate scripts for each funcionality and incorporate tools like ffuf, sqlmap,
 rice_again, subfinder, nmap, robots and sitemap getters, framework enumerator
-incorporatted  into rice_again and make this tools part of the project as well
+incorporatted  into rice_again+nuke_js fused and make this tools part of the project as well
 as scripts to autopwn targets, this recon phase can take hours, its fine, we
 will be using a large cloud cluster for this, make is very accurate and when
 save it as {target}-{date}-report
