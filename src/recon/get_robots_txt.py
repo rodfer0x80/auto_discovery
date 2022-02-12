@@ -15,7 +15,6 @@ def get_robots_txt(host):
 
     try:
         res = requests.get(f"http://{host}/robots.txt")
-        print(res.status_code) 
         if res.status_code != 200:
             res = requests.get(f"https://{host}/robots.txt")
             if res.status_code != 200:
@@ -26,20 +25,17 @@ def get_robots_txt(host):
         else:
             output = res.text
         
-    except:
-        sys.stderr.write("[get_robot_txt] Network connection error\n")
+    except Exception as e:
+        sys.stderr.write(f"[get_robot_txt] Network connection error: {e}\n")
         exit(1)
-   
+    with open('report/robots.txt', 'w') as fp:
+        fp.write(output)
     return output
 
 
 if __name__ == '__main__':
     host = False
-    try:
-        host = sys.argv[1]
-    except:
-        sys.stderr.write("Usage: ./get_robot_txt.py <host>\n")
-        exit(1)
+    host = sys.argv[1]
     output = get_robot_txt(host)
     print(output)
     exit(0)

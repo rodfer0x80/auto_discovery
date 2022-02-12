@@ -29,7 +29,7 @@ def get_favicon_framework(host, owasp_favicon_db="./owasp_favicon_db.txt"):
     
     try:
         db = unpack_txt_db(owasp_favicon_db)
-    except FileNotFound:
+    except FileNotFoundError:
         sys.stderr.write("[get_favicon_framework] File not found at {owasp_favicon_db}")
         exit(1)
     
@@ -62,10 +62,9 @@ def get_favicon_framework(host, owasp_favicon_db="./owasp_favicon_db.txt"):
             output = res.text
     
         if res.status_code != 200:
-            sys.stderr.write("[get_favicon_framework] Failed to connect to server\n")
-            exit(0)
+            output = "n/a"
     except:
-        sys.stderr.write("[get_favicon_framework] Network connection error\n")
+        sys.stderr.write(e)
         exit(1)
 
     hash_ob = hashlib.md5(output.strip().encode())
@@ -76,25 +75,19 @@ def get_favicon_framework(host, owasp_favicon_db="./owasp_favicon_db.txt"):
         if fw_hash == hashed_pass:
             output += f"{hashed_pass}:{db[fw_hash]}\n"
             break
-
+    with open('report/favicon_framework.txt', 'w') as fp:
+        fp.write(output)
     return output
 
 
 if __name__ == '__main__':
     host = False
     owasp_favicon_db = False
-    try:
-        host = sys.argv[1]
-    except:
-        sys.stderr.write("Usage: ./get_favicon_framework.py <host> <owasp_favicon_db>\n")
-        exit(1)
-    try:
-        owasp_favicon_db = sys.argv[2]
-    except:
-        pass
+    host = sys.argv[1]
+    owasp_favicon_db = sys.argv[2]
     if owasp_favicon_db:
-        output = get_favicon_output(host, owasp_favicon_db)
+        output = get_favicon_framework(host, owasp_favicon_db)
     else:
-        output = get_favicon_output(host)
+        output = get_favicon_framework(host)
     print(output)
     exit(0)

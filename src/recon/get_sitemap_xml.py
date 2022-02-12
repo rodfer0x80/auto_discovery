@@ -28,20 +28,19 @@ def get_sitemap_xml(host):
         else:
             output = res.text
         
-    except:
-        sys.stderr.write("[get_sitemap_xml] Network connection error\n")
+    except Exception as e:
+        sys.stderr.write(f"[get_sitemap_xml] Network connection error: e\n")
         exit(1)
-   
+    
+    with open('report/sitemap.xml', 'w') as fp:
+        fp.write(output)
     return output
 
 
 if __name__ == '__main__':
     host = False
-    try:
-        host = sys.argv[1]
-    except:
-        sys.stderr.write("Usage: ./get_sitemap_xml.py <host>\n")
-        exit(1)
+    host = sys.argv[1]
+    sys.stderr.write("Usage: ./get_sitemap_xml.py <host>\n")
     output = get_sitemap_xml(host)
     print(output)
     exit(0)

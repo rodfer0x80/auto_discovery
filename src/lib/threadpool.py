@@ -9,10 +9,6 @@ from recon.get_favicon_framework import get_favicon_framework
 class Threadpool:
     def __init__(self, host):
         self.host = host
-        if os.path.exists("./report"):
-            os.move("./report", f"./report-{time.now}")
-            os.mkdir("./report")
-
 
     def start_timer(self):
         self.start = time.time()
@@ -36,16 +32,16 @@ class Threadpool:
         self.n_threads = n_threads
         for i in range(0, n_threads):
             if i == 0:
-                self.threads.append(threading.Thread(target=self.recon.get_robot_txt, args=(self.host,)))
+                self.threads.append(threading.Thread(target=get_robots_txt, args=(self.host,)))
             elif i == 2:
-                self.threads.append(threading.Thread(target=self.recon.get_favicon_framework, args=(self.host,)))
+                self.threads.append(threading.Thread(target=get_favicon_framework, args=(self.host,)))
             elif i == 3:
-                self.threads.append(threading.Thread(target=self.recon.get_get_server_id, args=(self.host,)))
+                self.threads.append(threading.Thread(target=get_server_id, args=(self.host,)))
             else:
-                self.threads.append(threading.Thread(target=self.recon.get_sitemap_xml, args=(self.host,)))
+                self.threads.append(threading.Thread(target=get_sitemap_xml, args=(self.host,)))
             self.threads[i].start()
             self.threads[i].join()
-        parser.build_report()
+        #parser.build_report()
         return 0
 
 
