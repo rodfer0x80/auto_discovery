@@ -2,7 +2,7 @@
 
 
 # Send GET and POST request trying HTTPS and HTTP 
-# Read robots.txt
+# Read sitemap.xml 
 # Parse and sort data to enumerate sitemap
 # Return string of sitemap entries newline separated
 
@@ -10,24 +10,26 @@
 import sys, requests
 
 
-def get_robot_txt(host):
+def get_sitemap_xml(host):
     output = ""
 
     try:
-        res = requests.get(f"http://{host}/robots.txt")
-        print(res.status_code) 
+        res = requests.get(f"http://{host}/sitemap.xml")
+        output = res.status_code
+    
         if res.status_code != 200:
-            res = requests.get(f"https://{host}/robots.txt")
+            res = requests.get(f"https://{host}/sitemap.xml")
+        
             if res.status_code != 200:
                 output = res.text
             else:
-                sys.stderr.write("[get_robot_txt] Failed to connect to server\n")
+                sys.stderr.write("[get_sitemap_xml] Failed to connect to server\n")
                 exit(0)
         else:
             output = res.text
         
     except:
-        sys.stderr.write("[get_robot_txt] Network connection error\n")
+        sys.stderr.write("[get_sitemap_xml] Network connection error\n")
         exit(1)
    
     return output
@@ -38,8 +40,8 @@ if __name__ == '__main__':
     try:
         host = sys.argv[1]
     except:
-        sys.stderr.write("Usage: ./get_robot_txt.py <host>\n")
+        sys.stderr.write("Usage: ./get_sitemap_xml.py <host>\n")
         exit(1)
-    output = get_robot_txt(host)
+    output = get_sitemap_xml(host)
     print(output)
     exit(0)

@@ -1,14 +1,15 @@
 #\!/usr/bin/python3
 
+import sys
 
-from lib.threading import run_threads
+from lib.threadpool import Threadpool
 
 
 def bootstrap():
-    if len(os.argv) != 2:
+    if len(sys.argv) != 2:
         sys.stderr.write("Usage:/ python3 __main__.py <host>\n")
         exit(1)
-    host = os.argv[1]
+    host = sys.argv[1]
     threadpool = Threadpool(host)
     threadpool.start_timer()
     threadpool.run_threads()
